@@ -46,10 +46,6 @@
             android:label="@string/title_activity_authenticator"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
-        <activity
-            android:name="org.gege.caldavsyncadapter.SyncStatusReportActivity"
-            android:label="@string/title_activity_sync_status_report" >
-        </activity>
     </application>
 
 </manifest>
