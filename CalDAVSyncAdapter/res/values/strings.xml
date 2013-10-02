@@ -3,8 +3,9 @@
 
     <string name="app_name">CalDAV Sync Adapter</string>
     <string name="label">CalDav Sync Adapter</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
-    <string name="title_activity_sync_status_report">Caldav Sync Status</string>
-
+    
+    <string name="prefs_group_settings_and_statistics">settings and statistics</string>
+    <string name="prefs_settings">Settings</string>
+    <string name="prefs_statistics">Statistics</string>
+    <string name="prefs_calendars">Calendar list</string>
 </resources>

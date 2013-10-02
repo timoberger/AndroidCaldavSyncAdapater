@@ -1,19 +1,23 @@
 <resources>
 
     <string name="title_activity_authenticator">Anmelden</string>
-
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="title_activity_statistics">Statistik</string>
+    
     <!-- Strings related to login -->
     <string name="prompt_user">Benutzer</string>
     <string name="prompt_password">Passwort</string>
+    <string name="prompt_accountname">Accountname</string>
+    <string name="prompt_url">URL</string>
+    <string name="prompt_btn_ok">OK</string>
+    <string name="prompt_btn_cancel">Abbruch</string>
     <string name="action_sign_in_register"><b>Anmelden</b> oder registrieren</string>
     <string name="action_sign_in_short">Anmelden</string>
     <string name="menu_forgot_password">Passwort wiederherstellen</string>
     <string name="login_progress_signing_in">Teste Verbindung…</string>
-    <string name="error_invalid_email">Diese E-Mail Adresse ist ungültig</string>
     <string name="error_invalid_password">Das Passwort ist zu kurz</string>
     <string name="error_incorrect_password">Das Passwort ist falsch</string>
     <string name="error_field_required">Dieses Feld wird benötigt</string>
-    <string name="prompt_url">URL</string>
     <string name="error_incorrect_url_format">Das Format des URL ist falsch</string>
     <string name="error_invalid_server_answer">Ungültige Server Antwort, URL überprufen</string>
     <string name="error_wrong_url">Falsche URL</string>
