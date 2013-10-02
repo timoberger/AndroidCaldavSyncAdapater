@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CalDAV Sync Adapter</string>
+    <string name="label">CalDav Sync Adapter</string>
+
+   	<string name="prefs_group_settings_and_statistics">Einstellungen und Statistiken</string>
+   	<string name="prefs_settings">Einstellungen</string>
+    <string name="prefs_statistics">Statistiken</string>
+    <string name="prefs_calendars">Kalenderliste</string>
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/prefs_group_settings_and_statistics" />
+    <PreferenceScreen
+            android:key="goToPreferences"
+            android:title="@string/prefs_settings">
+        <intent
+                android:action="org.gege.caldavsyncadapter.settings.MAIN"
+                android:targetClass=".ui.BaseActivity">
+        </intent>
+    </PreferenceScreen>
+    <PreferenceScreen
+            android:key="goToStatistics"
+            android:title="@string/prefs_statistics">
+        <intent
+                android:action="org.gege.caldavsyncadapter.settings.STATS"
+                android:targetClass=".ui.BaseActivity">
+        </intent>
+    </PreferenceScreen>
+    <PreferenceScreen
+            android:key="goToCalendarlist"
+            android:title="@string/prefs_calendars">
+        <intent
+                android:action="org.gege.caldavsyncadapter.settings.CALENDARS"
+                android:targetClass=".ui.BaseActivity">
+        </intent>
+    </PreferenceScreen>
+    
+</PreferenceScreen>
