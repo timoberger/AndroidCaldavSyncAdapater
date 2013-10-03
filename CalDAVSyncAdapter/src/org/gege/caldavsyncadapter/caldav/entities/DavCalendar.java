@@ -69,6 +69,12 @@ public class DavCalendar {
 	
 	public static String SERVERURL = Calendars.CAL_SYNC2;
 	
+	/**
+	 * is the calendar sync enabled?
+	 * this is set by the activity CalendarlistActivity
+	 */
+	public static String ISSYNCENABLED = Calendars.CAL_SYNC3;
+	
 	private String strCalendarColor = "";
 	
 	private ArrayList<Uri> mNotifyList = new ArrayList<Uri>(); 
@@ -215,6 +221,36 @@ public class DavCalendar {
 	public void setAndroidCalendarId(int androidCalendarId) {
 		this.setContentValueAsInt(Calendars._ID, androidCalendarId);
 	}
+	
+	public boolean getAndroidCalendarIsSyncEnabled() {
+		boolean Result = true;
+		String Value = this.getContentValueAsString(ISSYNCENABLED);
+		if (Value.equals("")) {
+			// not set
+			Result = true;
+		} else if (Value.equals("false")) {
+			Result = false;
+		} else {
+			Result = true;
+		}
+		return Result;
+	}
+	
+	public void setAndroidCalendarIsSyncEnabled(boolean value, boolean Update) {
+		String Value = "";
+		if (value)
+			Value = "true";
+		else
+			Value = "false";
+		this.setContentValueAsString(ISSYNCENABLED, Value);
+		if (Update) {
+			try {
+				this.updateAndroidCalendar(this.getAndroidCalendarUri(), ISSYNCENABLED, Value);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	/**
 	 * example: content://com.android.calendar/calendars/8
@@ -246,12 +282,20 @@ public class DavCalendar {
 		String strDisplayName = cur.getString(cur.getColumnIndex(Calendars.CALENDAR_DISPLAY_NAME));
 		String strCTAG = cur.getString(cur.getColumnIndex(DavCalendar.CTAG));
 		String strServerUrl = cur.getString(cur.getColumnIndex(DavCalendar.SERVERURL));
+		String strIsSyncEnabled = cur.getString(cur.getColumnIndex(DavCalendar.ISSYNCENABLED));
 		int intAndroidCalendarId = cur.getInt(cur.getColumnIndex(Calendars._ID));
 
 		this.setCalendarName(strName);
 		this.setCalendarDisplayName(strDisplayName);
 		this.setCTag(strCTAG, false);
 		this.setAndroidCalendarId(intAndroidCalendarId);
+		
+		if (strIsSyncEnabled == null) {
+			this.setAndroidCalendarIsSyncEnabled(true, false);
+		} else if (strIsSyncEnabled.equals("false"))
+			this.setAndroidCalendarIsSyncEnabled(false, false);
+		else
+			this.setAndroidCalendarIsSyncEnabled(true, false);
 		
 		if (strSyncID == null) {
 			this.correctSyncID(strName);

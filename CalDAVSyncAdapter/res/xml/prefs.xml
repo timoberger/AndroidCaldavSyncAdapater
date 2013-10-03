@@ -10,14 +10,6 @@
         </intent>
     </PreferenceScreen>
     <PreferenceScreen
-            android:key="goToStatistics"
-            android:title="@string/prefs_statistics">
-        <intent
-                android:action="org.gege.caldavsyncadapter.settings.STATS"
-                android:targetClass=".ui.BaseActivity">
-        </intent>
-    </PreferenceScreen>
-    <PreferenceScreen
             android:key="goToCalendarlist"
             android:title="@string/prefs_calendars">
         <intent
@@ -25,5 +17,12 @@
                 android:targetClass=".ui.BaseActivity">
         </intent>
     </PreferenceScreen>
-    
+    <PreferenceScreen
+            android:key="goToStatistics"
+            android:title="@string/prefs_statistics">
+        <intent
+                android:action="org.gege.caldavsyncadapter.settings.STATS"
+                android:targetClass=".ui.BaseActivity">
+        </intent>
+    </PreferenceScreen>
 </PreferenceScreen>
