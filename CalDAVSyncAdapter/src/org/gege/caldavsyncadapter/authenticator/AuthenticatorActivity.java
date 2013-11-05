@@ -32,6 +32,7 @@ import org.apache.http.conn.HttpHostConnectException;
 import org.gege.caldavsyncadapter.R;
 import org.gege.caldavsyncadapter.caldav.CaldavFacade;
 import org.gege.caldavsyncadapter.caldav.CaldavFacade.TestConnectionResult;
+import org.gege.caldavsyncadapter.syncadapter.logging.Logger;
 import org.xml.sax.SAXException;
 
 import android.accounts.Account;
@@ -299,9 +300,10 @@ public class AuthenticatorActivity extends Activity {
 		protected LoginResult doInBackground(Void... params) {
 
 			TestConnectionResult result = null;
+			Logger logger = new Logger(null);
 			
 			try {
-				CaldavFacade facade = new CaldavFacade(mUser, mPassword, mURL);
+				CaldavFacade facade = new CaldavFacade(mUser, mPassword, mURL, logger);
 				String version = "";
 				try {
 					version = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName;

@@ -43,7 +43,8 @@ import org.gege.caldavsyncadapter.caldav.entities.DavCalendar;
 import org.gege.caldavsyncadapter.caldav.entities.CalendarEvent;
 import org.gege.caldavsyncadapter.caldav.entities.CalendarList;
 import org.gege.caldavsyncadapter.caldav.entities.DavCalendar.CalendarSource;
-import org.gege.caldavsyncadapter.syncadapter.notifications.NotificationsHelper;
+import org.gege.caldavsyncadapter.syncadapter.logging.Logger;
+//import org.gege.caldavsyncadapter.syncadapter.notifications.NotificationsHelper;
 import org.xml.sax.SAXException;
 
 import android.accounts.Account;
@@ -77,6 +78,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	
 	private int mCountProviderFailedMax = 3;
 //	private Context mContext;
+	
+	private Logger mLogger = new Logger(this.getContext());
 	
 	
 /*	private static final String[] CALENDAR_PROJECTION = new String[] {
@@ -144,7 +147,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				Username = mAccountManager.getUserData(account, AuthenticatorActivity.USER_DATA_USERNAME);
 			}
 
-			CaldavFacade facade = new CaldavFacade(Username, mAccountManager.getPassword(account), url);
+			CaldavFacade facade = new CaldavFacade(Username, mAccountManager.getPassword(account), url, this.mLogger);
 			facade.setAccount(account);
 			facade.setProvider(provider);
 			facade.setVersion(mVersion);
@@ -207,9 +210,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					syncResult.stats.numIoExceptions += 1;
 					if (mCountProviderFailed >= mCountProviderFailedMax) {
 						// see issue #96
-						NotificationsHelper.signalSyncErrors(this.getContext(), "Caldav sync error (provider failed)", "are you using CyanogenMod in Incognito Mode?");
+						//NotificationsHelper.signalSyncErrors(this.getContext(), "Caldav sync error (provider failed)", "are you using CyanogenMod in Incognito Mode?");
+						mLogger.NewEntry("Caldav sync error (provider failed)", "are you using CyanogenMod in Incognito Mode?", 5);
 					} else {
-						NotificationsHelper.signalSyncErrors(this.getContext(), "Caldav sync error (provider failed)", "the provider failed to get an existing or create a new calendar");
+						//NotificationsHelper.signalSyncErrors(this.getContext(), "Caldav sync error (provider failed)", "the provider failed to get an existing or create a new calendar");
+						mLogger.NewEntry("Caldav sync error (provider failed)", "the provider failed to get an existing or create a new calendar", 6);
 					}
 					bolError = true;
 				}
@@ -251,7 +256,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         } catch (final IOException e) {
             Log.e(TAG, "IOException", e);
             syncResult.stats.numIoExceptions++;
-            NotificationsHelper.signalSyncErrors(this.getContext(), "Caldav sync error (IO)", e.getMessage());
+            //NotificationsHelper.signalSyncErrors(this.getContext(), "Caldav sync error (IO)", e.getMessage());
+            mLogger.NewEntry("Caldav sync error (IO)", e.getMessage(), 7);
             //NotificationsHelper.getCurrentSyncLog().addException(e);
             /*} catch (final AuthenticationException e) {
             //mAccountManager.invalidateAuthToken(Constants.ACCOUNT_TYPE, authtoken);
@@ -260,7 +266,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         } catch (final ParseException e) {
             syncResult.stats.numParseExceptions++;
             Log.e(TAG, "ParseException", e);
-            NotificationsHelper.signalSyncErrors(this.getContext(), "Caldav sync error (parsing)", e.getMessage());
+            //NotificationsHelper.signalSyncErrors(this.getContext(), "Caldav sync error (parsing)", e.getMessage());
+            mLogger.NewEntry("Caldav sync error (parsing)", e.getMessage(), 8);
             //NotificationsHelper.getCurrentSyncLog().addException(e);
         /*} catch (final JSONException e) {
             syncResult.stats.numParseExceptions++;
@@ -268,7 +275,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		} catch (Exception e) {
 			Log.e(TAG, "Updating calendar exception " + e.getClass().getName(), e);
             syncResult.stats.numParseExceptions++;
-            NotificationsHelper.signalSyncErrors(this.getContext(), "Caldav sync error (general)", e.getMessage());
+            //NotificationsHelper.signalSyncErrors(this.getContext(), "Caldav sync error (general)", e.getMessage());
+            mLogger.NewEntry("Caldav sync error (general)", e.getMessage(), 9);
             //NotificationsHelper.getCurrentSyncLog().addException(e);
 			//throw new RuntimeException(e);
 		}
@@ -359,13 +367,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				Log.e(TAG, "Parser exception", ex);
 				stats.numParseExceptions++;
 
-	            NotificationsHelper.signalSyncErrors(getContext(), "Caldav sync error (parsing)", ex.getMessage());
+	            //NotificationsHelper.signalSyncErrors(getContext(), "Caldav sync error (parsing)", ex.getMessage());
+	            mLogger.NewEntry("Caldav sync error (parsing)", ex.getMessage(), 10);
 	            //NotificationsHelper.getCurrentSyncLog().addException(ex);
 			} catch (CaldavProtocolException ex) {
 				Log.e(TAG, "Caldav exception", ex);
 				stats.numParseExceptions++;
 
-	            NotificationsHelper.signalSyncErrors(getContext(), "Caldav sync error (caldav)", ex.getMessage());
+	            //NotificationsHelper.signalSyncErrors(getContext(), "Caldav sync error (caldav)", ex.getMessage());
+	            mLogger.NewEntry("Caldav sync error (caldav)", ex.getMessage(), 11);
 	            //NotificationsHelper.getCurrentSyncLog().addException(ex);
 			}
 		}

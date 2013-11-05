@@ -86,7 +86,8 @@ import org.gege.caldavsyncadapter.caldav.http.HttpReport;
 import org.gege.caldavsyncadapter.caldav.xml.CalendarHomeHandler;
 import org.gege.caldavsyncadapter.caldav.xml.CalendarsHandler;
 import org.gege.caldavsyncadapter.caldav.xml.ServerInfoHandler;
-import org.gege.caldavsyncadapter.syncadapter.notifications.NotificationsHelper;
+import org.gege.caldavsyncadapter.syncadapter.logging.Logger;
+//import org.gege.caldavsyncadapter.syncadapter.notifications.NotificationsHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -130,6 +131,8 @@ public class CaldavFacade {
 	private Account mAccount = null;
 	private ContentProviderClient mProvider;
 	
+	private Logger mLogger = null;
+	
 	protected HttpClient getHttpClient() {
 
 		HttpParams params = new BasicHttpParams();
@@ -146,8 +149,9 @@ public class CaldavFacade {
 		return client;
 	}
 
-	public CaldavFacade(String mUser, String mPassword, String mURL) throws MalformedURLException {
+	public CaldavFacade(String mUser, String mPassword, String mURL, Logger logger) throws MalformedURLException {
 		url = new URL(mURL);
+		this.mLogger = logger;
 
 		httpClient = getHttpClient();
 		UsernamePasswordCredentials upc = new UsernamePasswordCredentials(mUser, mPassword);
@@ -284,26 +288,30 @@ public class CaldavFacade {
 			calendars = getCalendarsFromSet(uri);
 		} catch (ClientProtocolException e) {
 			if (context != null) {
-				NotificationsHelper.signalSyncErrors(context, "Caldav sync problem", e.getMessage());
+				//NotificationsHelper.signalSyncErrors(context, "Caldav sync problem", e.getMessage());
+				mLogger.NewEntry("Caldav sync problem", e.getMessage(), 1);
 				//NotificationsHelper.getCurrentSyncLog().addException(e);
 			}
 			exception = e;
 		} catch (FileNotFoundException e) {
 			if (context != null) {
-				NotificationsHelper.signalSyncErrors(context, "Caldav sync problem", e.getMessage());
+				//NotificationsHelper.signalSyncErrors(context, "Caldav sync problem", e.getMessage());
+				mLogger.NewEntry("Caldav sync problem", e.getMessage(), 2);
 				//NotificationsHelper.getCurrentSyncLog().addException(e);
 			}
 			throw e;
 		} catch (IOException e) {
 			if (context != null) {
-				NotificationsHelper.signalSyncErrors(context, "Caldav sync problem", e.getMessage());
+				//NotificationsHelper.signalSyncErrors(context, "Caldav sync problem", e.getMessage());
+				mLogger.NewEntry("Caldav sync problem", e.getMessage(), 3);
 				//NotificationsHelper.getCurrentSyncLog().addException(e);
 			}
 			exception = e;
 		} catch (CaldavProtocolException e) {
 
 			if (context != null) {
-				NotificationsHelper.signalSyncErrors(context, "Caldav sync problem", e.getMessage());
+				//NotificationsHelper.signalSyncErrors(context, "Caldav sync problem", e.getMessage());
+				mLogger.NewEntry("Caldav sync problem", e.getMessage(), 4);
 				//NotificationsHelper.getCurrentSyncLog().addException(e);
 			}
 			exception = e;
