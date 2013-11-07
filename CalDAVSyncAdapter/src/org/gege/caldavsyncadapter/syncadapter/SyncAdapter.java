@@ -79,7 +79,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	private int mCountProviderFailedMax = 3;
 //	private Context mContext;
 	
-	private Logger mLogger = new Logger(this.getContext());
+	private Logger mLogger;
 	
 	
 /*	private static final String[] CALENDAR_PROJECTION = new String[] {
@@ -128,6 +128,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 			ContentProviderClient provider, SyncResult syncResult) {
 		boolean bolError = false;
 		
+		String jsonLogger = mAccountManager.getUserData(account, AuthenticatorActivity.USER_DATA_LOGGER);
+		if (jsonLogger != null)
+			mLogger = new Logger(this.getContext(), jsonLogger);
+		else
+			mLogger = new Logger(this.getContext());
+		
+		mLogger.NewEntry("Titel 1", "Message 1", 1);
+
 		String url = mAccountManager.getUserData(account, AuthenticatorActivity.USER_DATA_URL_KEY);
 		this.mCountPerformSync += 1;
 		Log.v(TAG, "onPerformSync() count:" + String.valueOf(this.mCountPerformSync) + " on " + account.name + " with URL " + url);
@@ -280,6 +288,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             //NotificationsHelper.getCurrentSyncLog().addException(e);
 			//throw new RuntimeException(e);
 		}
+		
+		mLogger.NewEntry("Titel 2", "Message 2", 2);
+		
+		jsonLogger = mLogger.getAsJson().toString();
+		//mLogger = new Logger(this.getContext(), jsonLogger);
+		mAccountManager.setUserData(account, AuthenticatorActivity.USER_DATA_LOGGER, jsonLogger);
+		mLogger = null;
 	}
 
 	public void onSyncCanceled () {
@@ -397,7 +412,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		stats.numDeletes += rowDelete;
 		stats.numSkippedEntries += rowSkip;
 		stats.numEntries += rowInsert + rowUpdate + rowDelete;
-
 	}
 	
 	/**
