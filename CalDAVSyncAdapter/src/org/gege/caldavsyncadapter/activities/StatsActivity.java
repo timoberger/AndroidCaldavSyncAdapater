@@ -43,15 +43,27 @@ public class StatsActivity extends Activity {
 		Log.v(TAG, "account type: " + mAccount.type);
 		
 		TableRow NewRow = null;
-		TextView EntryView = null;
-		TableLayout tblStatsListView = (TableLayout) this.findViewById(R.id.tblStatsList);
+		TextView EntryNrView = null;
+		TextView EntryTitleView = null;
+		TextView EntryTextView = null;
+				TableLayout tblStatsListView = (TableLayout) this.findViewById(R.id.tblStatsList);
 		String jsonLogger = mAccountManager.getUserData(mAccount, AuthenticatorActivity.USER_DATA_LOGGER);
 		Logger logger = new Logger(this, jsonLogger);
 		for (LogEntry le : logger.Entries) {
 			NewRow = new TableRow(this);
-			EntryView = new TextView(this);
-			EntryView.setText(le.getNr() + " " + le.getTitle() + " " + le.getText());
-			NewRow.addView(EntryView);
+			
+			EntryNrView = new TextView(this);
+			EntryNrView.setText(String.valueOf(le.getNr()));
+			NewRow.addView(EntryNrView);
+			
+			EntryTitleView = new TextView(this);
+			EntryTitleView.setText(le.getTitle());
+			NewRow.addView(EntryTitleView);
+
+			EntryTextView = new TextView(this);
+			EntryTextView.setText(le.getText());
+			NewRow.addView(EntryTextView);
+			
 			tblStatsListView.addView(NewRow);
 		}
 
