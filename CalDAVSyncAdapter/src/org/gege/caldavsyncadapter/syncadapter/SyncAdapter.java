@@ -374,7 +374,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 					}
 				}
 				if (androidEvent != null)
-					if (androidEvent.tagAndroidEvent())
+					//if (androidEvent.tagAndroidEvent())
+					if (androidCalendar.tagAndroidEvent(androidEvent))
 						rowTag += 1;
 				
 				
@@ -457,7 +458,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 				EventID = curEvent.getLong(curEvent.getColumnIndex(Events._ID));
 				Uri returnedUri = ContentUris.withAppendedId(Events.CONTENT_URI, EventID);
 				
-				androidEvent = new AndroidEvent(account, provider, returnedUri, calendarUri);
+				//androidEvent = new AndroidEvent(account, provider, returnedUri, calendarUri);
+				androidEvent = new AndroidEvent(returnedUri, calendarUri);
 				androidEvent.readContentValues(curEvent);
 				
 				selection = "(" + Attendees.EVENT_ID + " = ?)";
